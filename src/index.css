@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.outlined-text {
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+  font-weight: 800;
+}
+
+@media (min-width: 768px) {
+  .outlined-text {
+    -webkit-text-stroke: 3px rgb(175, 152, 152);
+  }
+}
