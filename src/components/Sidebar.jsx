@@ -1,53 +1,69 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, Settings, LogOut } from 'lucide-react';
-import clsx from 'clsx';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaFileInvoiceDollar,
+  FaBoxes,
+  FaWarehouse,
+  FaUsers,
+  FaChartBar,
+  FaCog,
+} from "react-icons/fa";
+import Logo2 from "../assets/images/Logo2.png";
 
 const Sidebar = () => {
-    const navItems = [
-        { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
-        { icon: Package, label: 'Inventory', path: '/inventory' },
-        { icon: ShoppingCart, label: 'POS', path: '/pos' },
-        { icon: Settings, label: 'Settings', path: '/settings' },
-    ];
+  const [active, setActive] = useState("Dashboard");
 
-    return (
-        <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen fixed left-0 top-0 z-10">
-            <div className="p-6 flex items-center gap-3 border-b border-gray-100">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">P</span>
-                </div>
-                <span className="font-bold text-xl text-gray-800">PharmaOne</span>
-            </div>
+  const menu = [
+    { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
+    {
+      label: "Billing System",
+      icon: <FaFileInvoiceDollar />,
+      path: "/billing",
+    },
+    { label: "Product Management", icon: <FaBoxes />, path: "/products" },
+    { label: "Inventory", icon: <FaWarehouse />, path: "/inventory" },
+    { label: "User Management", icon: <FaUsers />, path: "/users" },
+    { label: "Reports", icon: <FaChartBar />, path: "/reports" },
+    { label: "Settings", icon: <FaCog />, path: "/settings" },
+  ];
 
-            <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-                {navItems.map((item) => (
-                    <NavLink
-                        key={item.path}
-                        to={item.path}
-                        className={({ isActive }) =>
-                            clsx(
-                                'flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200',
-                                isActive
-                                    ? 'bg-blue-50 text-blue-600 font-medium shadow-sm'
-                                    : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
-                            )
-                        }
-                    >
-                        <item.icon size={20} />
-                        <span>{item.label}</span>
-                    </NavLink>
-                ))}
-            </nav>
+  return (
+    <aside className="fixed left-0 top-0 h-full w-64 bg-[#1a8f83]/90 text-white shadow-lg z-20">
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-white/20">
+        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
+          <img
+            src={Logo2}
+            alt="TrustMed Logo"
+            className="w-full h-full object-contain p-1"
+          />
+        </div>
+      </div>
 
-            <div className="p-4 border-t border-gray-100">
-                <button className="flex items-center gap-3 px-4 py-3 w-full text-left text-red-500 hover:bg-red-50 rounded-xl transition-colors">
-                    <LogOut size={20} />
-                    <span>Logout</span>
-                </button>
-            </div>
-        </aside>
-    );
+      <nav className="mt-4">
+        <ul className="space-y-1">
+          {menu.map((item) => (
+            <li key={item.label}>
+              <Link
+                to={item.path}
+                onClick={() => setActive(item.label)}
+                className={`flex items-center gap-3 w-full text-left px-5 py-3 rounded-md transition 
+                  ${
+                    active === item.label
+                      ? "bg-orange-600 font-semibold"
+                      : "hover:bg-white/10"
+                  }
+                `}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span className="text-sm">{item.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+  );
 };
 
 export default Sidebar;
