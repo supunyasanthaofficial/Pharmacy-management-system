@@ -33,12 +33,14 @@ export default function ProductManagement() {
           <Bell />
         </div>
       </div>
-      <div className="relative  left-220">
-        <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-        <input
-          placeholder="search ..."
-          className="rounded-lg border px-10 py-2 text-sm outline-none"
-        />
+      <div className="mb-6 flex items-center gap-3">
+        <div className="relative left-200 w-80">
+          <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+          <input
+            placeholder="search ..."
+            className="w-full rounded-lg border px-10 py-2 text-sm outline-none focus:border-teal-500"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
