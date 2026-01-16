@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaFileInvoiceDollar,
@@ -8,11 +8,13 @@ import {
   FaUsers,
   FaChartBar,
   FaCog,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import Logo2 from "../assets/images/Logo2.png";
 
 const Sidebar = () => {
   const [active, setActive] = useState("Dashboard");
+  const navigate = useNavigate();
 
   const menu = [
     { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
@@ -28,8 +30,12 @@ const Sidebar = () => {
     { label: "Settings", icon: <FaCog />, path: "/settings" },
   ];
 
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-[#1a8f83]/90 text-white shadow-lg z-20">
+    <aside className="fixed left-0 top-0 h-full w-64 bg-[#1a8f83]/90 text-white shadow-lg z-20 flex flex-col">
       <div className="flex items-center gap-3 px-6 py-4 border-b border-white/20">
         <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
           <img
@@ -40,7 +46,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <nav className="mt-4">
+      <nav className="mt-4 flex-1">
         <ul className="space-y-1">
           {menu.map((item) => (
             <li key={item.label}>
@@ -62,6 +68,18 @@ const Sidebar = () => {
           ))}
         </ul>
       </nav>
+
+      <div className="border-t border-white/20 px-5 py-4">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 w-full text-left px-3 py-3 rounded-md  hover:bg-red-700 transition font-semibold"
+        >
+          <span className="text-lg">
+            <FaSignOutAlt />
+          </span>
+          <span className="text-sm">Logout</span>
+        </button>
+      </div>
     </aside>
   );
 };
