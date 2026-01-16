@@ -1,4 +1,3 @@
-import React from "react";
 import { Bell, User, Search, TrendingUp, Pill } from "lucide-react";
 import Salechart from "../assets/images/Salechart.png";
 import Mchart from "../assets/images/Mchart.png";
@@ -68,7 +67,11 @@ const Dashboard = () => {
           },
         ].map((item, index) => (
           <div key={index} className="bg-white rounded-xl p-4 shadow">
-            <p className={`text-sm ${item.danger ? "text-red-600" : "text-gray-500"}`}>
+            <p
+              className={`text-sm ${
+                item.danger ? "text-red-600" : "text-gray-500"
+              }`}
+            >
               {item.title}
             </p>
             <h2
@@ -78,7 +81,11 @@ const Dashboard = () => {
             >
               {item.value}
             </h2>
-            <p className={`text-xs ${item.danger ? "text-red-600" : "text-gray-400"}`}>
+            <p
+              className={`text-xs ${
+                item.danger ? "text-red-600" : "text-gray-400"
+              }`}
+            >
               {item.note}
             </p>
           </div>
