@@ -11,8 +11,11 @@ import {
   Pill,
   X,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductManagement() {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen rounded-4xl bg-teal-100 p-6">
       <div className="mb-6 flex items-center justify-between rounded-2xl bg-white px-6 py-4 shadow">
@@ -167,7 +170,9 @@ export default function ProductManagement() {
             Perform manual stock reconciliation and manage damaged goods.
           </p>
 
-          <button className="mt-12 text-sm font-medium text-blue-600">
+          <button
+          onClick={() => navigate("/inventory")}
+          className="mt-12 text-sm font-medium text-blue-600 hover:underline">
             Manage Product List →
           </button>
         </div>
