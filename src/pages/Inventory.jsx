@@ -1,8 +1,23 @@
 import { useState } from "react";
-import { User, Bell, Search, Filter, Download } from "lucide-react";
+import {
+  User,
+  Bell,
+  Search,
+  Filter,
+  Download,
+  X,
+  FileText,
+  Sheet,
+} from "lucide-react";
 export default function InventoryPage() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [openExport, setOpenExport] = useState(false);
+  const [range, setRange] = useState("all");
+  const [format, setFormat] = useState("pdf");
+  const [openFilter, setOpenFilter] = useState(false);
+  const [stockFilter, setStockFilter] = useState("");
+  const [expiryFilter, setExpiryFilter] = useState("");
 
   const totals = {
     totalMedicines: 1482,
@@ -150,12 +165,19 @@ export default function InventoryPage() {
         </h3>
         <div className="bg-white rounded-lg p-6 shadow-inner border border-teal-200">
           <div className="flex items-center justify-between mb-4">
+            <div></div>
             <div className="flex items-center gap-3 text-sm text-slate-600">
-              <button className="flex items-center gap-2 px-6 py-2 rounded hover:bg-slate-50 transition">
+              <button
+                onClick={() => setOpenFilter(true)}
+                className="flex items-center gap-2 px-6 py-2 rounded hover:bg-slate-50 transition"
+              >
                 <Filter size={18} className="text-slate-600" />
                 Filters
               </button>
-              <button className="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-50 transition">
+              <button
+                onClick={() => setOpenExport(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-50 transition"
+              >
                 <Download size={18} className="text-slate-600" />
                 Export
               </button>
@@ -235,6 +257,255 @@ export default function InventoryPage() {
           </div>
         </div>
       </div>
+      {openFilter && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="w-90[360px] rounded-2xl border-4 border-teal-300 bg-white p-6 shadow-xl animate-scalIn">
+            <div className="mb-4 flex items-center justify-between border-b pb-3">
+              <h2 className="text-xl font-bold underline">Filter</h2>
+              <button
+                onClick={() => setOpenFilter(false)}
+                className="rounded p-2 hover:bg-gray-100"
+              >
+                <X />
+              </button>
+            </div>
+            <div className="space-y-4 text-sm">
+              <div>
+                <p className="font-semibold mb-1">Category</p>
+                <select className="w-full rounded bg-gray-200 px-3 py-2">
+                  <option>Select Category</option>
+                  <option>Syrup</option>
+                  <option>Painkillers</option>
+                  <option>Tablet</option>
+                  <option>Injection</option>
+                  <option>Antibiotics</option>
+                </select>
+              </div>
+              <div>
+                <p className="font-semibold mb-1">Medicine Type</p>
+                <input className="w-full rounded bg-gray-200 px-3 py-2" />
+              </div>
+              <div>
+                <p className="font-semibold mb-1">Brand</p>
+                <input className="w-full rounded bg-gray-200 px-3 py-2" />
+              </div>
+              <div>
+                <p className="font-semibold mb-1">Supplier </p>
+                <select className="w-full rounded bg-gray-200 px-3 py-2">
+                  <option>Select Supplier</option>
+                  <option>A</option>
+                  <option>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                </select>
+              </div>
+              <div>
+                <p className="font-semibold mb-1">Batch No</p>
+                <input className="w-full rounded bg-gray-200 px-3 py-2" />
+              </div>
+
+              <div>
+                <p className="font-semibold mb-1">Stock Status</p>
+                <div className="flex gap-3">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="stock"
+                      value="in-stock"
+                      checked={stockFilter === "in-stock"}
+                      onChange={(e) => setStockFilter(e.target.value)}
+                      className="accent-teal-600"
+                    />
+                    <span>In Stock</span>
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="stock"
+                      value="low-stock"
+                      checked={stockFilter === "low-stock"}
+                      onChange={(e) => setStockFilter(e.target.value)}
+                      className="accent-teal-600"
+                    />
+                    <span>Low Stock</span>
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="stock"
+                      value="out-of-stock"
+                      checked={stockFilter === "out-of-stock"}
+                      onChange={(e) => setStockFilter(e.target.value)}
+                      className="accent-teal-600"
+                    />
+                    <span>Out of Stock</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold mb-1">Expiry Status</p>
+                <div className="flex gap-3">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="expiry"
+                      value="valid"
+                      checked={expiryFilter === "valid"}
+                      onChange={(e) => setExpiryFilter(e.target.value)}
+                      className="accent-teal-600"
+                    />
+                    <span>Valid</span>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="expiry"
+                      value="near-expiry"
+                      checked={expiryFilter === "near-expiry"}
+                      onChange={(e) => setExpiryFilter(e.target.value)}
+                      className="accent-teal-600"
+                    />
+                    <span>Near Expiry</span>
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="expiry"
+                      value="expired"
+                      checked={expiryFilter === "expired"}
+                      onChange={(e) => setExpiryFilter(e.target.value)}
+                      className="accent-teal-600"
+                    />
+                    <span>Expiry</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold mb-1">Price Range</p>
+                <div className="flex gap-2">
+                  <input
+                    placeholder="From"
+                    className="w-1/2 rounded bg-gray-200 px-2 py-1"
+                  />
+                  <input
+                    placeholder="To"
+                    className="w-1/2 rounded bg-gray-200 px-2 py-1"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex justify-between">
+              <button className="rounded border px-4 py-2 ">
+                Clear Filter
+              </button>
+              <button className="rounded bg-teal-600 px-4 py-2 text-white">
+                Apply Filter
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {openExport && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="w-160[640px] rounded-2xl border-4 border-teal-300 bg-white p-6 shadow-xl animate-scaleIn">
+            <div className="mb-4 flex items-center justify-between border-b pb-3">
+              <h2 className="text-xl font-bold">Export Inventory Data</h2>
+              <button
+                onClick={() => setOpenExport(false)}
+                className="rounded p-2 hover:bg-gray-100"
+              >
+                <X />
+              </button>
+            </div>
+
+            <div className="mb-5">
+              <p className="mb-2 font-semibold">Select Data Range</p>
+              <div className="flex gap-3">
+                {[
+                  { id: "all", label: "All Inventory" },
+                  { id: "filtered", label: "Filtered Result" },
+                  { id: "custom", label: "Customer Range" },
+                ].map((r) => (
+                  <button
+                    key={r.id}
+                    onClick={() => setRange(r.id)}
+                    className={`rounded-lg border px-4 py-2 text-sm ${
+                      range === r.id
+                        ? "bg-green-200 border-green-400"
+                        : "hover:bg-gray-50"
+                    }`}
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-5 grid grid-cols-2 gap-4">
+              <div>
+                <p className="mb-1 text-sm">Start Date</p>
+                <input
+                  type="date"
+                  className="w-full rounded border px-3 py-2 text-sm"
+                />
+              </div>
+
+              <div>
+                <p className="mb-1 text-sm">End Date</p>
+                <input
+                  type="date"
+                  className="w-full rounded border px-3 py-2 text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <p className="mb-2 font-semibold">Download Format</p>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => setFormat("pdf")}
+                  className={`flex items-center gap-3 rounded-lg border p-3 ${
+                    format === "pdf" && "border-red-500 bg-red-50"
+                  }`}
+                >
+                  <FileText size={20} className="text-red-600" />
+                  <span className="font-semibold">PDF</span>
+                </button>
+
+                <button
+                  onClick={() => setFormat("excel")}
+                  className={`flex items-center gap-3 rounded-lg border p-3 ${
+                    format === "excel" && "border-green-600 bg-green-50"
+                  }`}
+                >
+                  <Sheet size={20} className="text-green-600" />
+                  <span className="font-semibold">Excel</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <button
+                onClick={() => setOpenExport(false)}
+                className="rounded border px-6 py-2"
+              >
+                Cancel
+              </button>
+
+              <div className="flex gap-3">
+                <button className="rounded border px-6 py-2">Print</button>
+                <button className="rounded bg-gray-300 px-6 py-2 font-medium">
+                  Export Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
