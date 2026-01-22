@@ -16,6 +16,7 @@ const Sidebar = () => {
   const [active, setActive] = useState("Dashboard");
   const navigate = useNavigate();
 
+  // Settings මෙතනින් ඉවත් කර ඇත
   const menu = [
     { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
     {
@@ -27,7 +28,6 @@ const Sidebar = () => {
     { label: "Inventory", icon: <FaWarehouse />, path: "/inventory" },
     { label: "User Management", icon: <FaUsers />, path: "/users" },
     { label: "Reports", icon: <FaChartBar />, path: "/reports" },
-    { label: "Settings", icon: <FaCog />, path: "/settings" },
   ];
 
   const handleLogout = () => {
@@ -44,6 +44,7 @@ const Sidebar = () => {
             className="w-full h-full object-contain p-1"
           />
         </div>
+        <span className="font-bold text-lg tracking-wide text-white">TrustMed</span>
       </div>
 
       <nav className="mt-4 flex-1">
@@ -69,10 +70,28 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      <div className="border-t border-white/20 px-5 py-4">
+      {/* පහළ කොටස: Settings සහ Logout */}
+      <div className="border-t border-white/20 px-5 py-4 space-y-1">
+        <Link
+          to="/settings"
+          onClick={() => setActive("Settings")}
+          className={`flex items-center gap-3 w-full text-left px-3 py-3 rounded-md transition 
+            ${
+              active === "Settings"
+                ? "bg-orange-600 font-semibold"
+                : "hover:bg-white/10"
+            }
+          `}
+        >
+          <span className="text-lg">
+            <FaCog />
+          </span>
+          <span className="text-sm">Settings</span>
+        </Link>
+
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full text-left px-3 py-3 rounded-md  hover:bg-red-700 transition font-semibold"
+          className="flex items-center gap-3 w-full text-left px-3 py-3 rounded-md hover:bg-red-700 transition font-semibold"
         >
           <span className="text-lg">
             <FaSignOutAlt />
