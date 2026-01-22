@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { User, Bell, Search, Edit2, Trash2 } from "lucide-react";
+import AddUserModal from "../components/AddUserModal";
 
 export default function UserManagementPage() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const users = [
     {
@@ -43,7 +45,7 @@ export default function UserManagementPage() {
   const filtered = users.filter(
     (u) =>
       u.name.toLowerCase().includes(query.toLowerCase()) ||
-      u.email.toLowerCase().includes(query.toLowerCase())
+      u.email.toLowerCase().includes(query.toLowerCase()),
   );
 
   const perPage = 5;
@@ -109,7 +111,10 @@ export default function UserManagementPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="px-4 py-2 bg-teal-700 text-white rounded-md flex items-center gap-2">
+            <button
+              onClick={() => setIsModalOpen(true)} // Click කළ විට open කරන්න
+              className="px-4 py-2 bg-teal-700 text-white rounded-md flex items-center gap-2"
+            >
               <span className="w-5 h-5 bg-white rounded-full text-teal-700 flex items-center justify-center">
                 +
               </span>
@@ -200,6 +205,10 @@ export default function UserManagementPage() {
           </div>
         </div>
       </div>
+      <AddUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
