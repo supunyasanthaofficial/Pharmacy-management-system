@@ -16,7 +16,6 @@ const Sidebar = () => {
   const [active, setActive] = useState("Dashboard");
   const navigate = useNavigate();
 
-  // Settings මෙතනින් ඉවත් කර ඇත
   const menu = [
     { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
     {
@@ -44,7 +43,9 @@ const Sidebar = () => {
             className="w-full h-full object-contain p-1"
           />
         </div>
-        <span className="font-bold text-lg tracking-wide text-white">TrustMed</span>
+        <span className="font-bold text-lg tracking-wide text-white">
+          TrustMed
+        </span>
       </div>
 
       <nav className="mt-4 flex-1">
@@ -70,7 +71,6 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      {/* පහළ කොටස: Settings සහ Logout */}
       <div className="border-t border-white/20 px-5 py-4 space-y-1">
         <Link
           to="/settings"
