@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { User, Bell, Search, Edit2, Trash2 } from "lucide-react";
 import AddUserModal from "../components/AddUserModal";
 import RolesPermissionsModal from "../components/RolesPermissionModal";
+import DeleteUserModal from "../components/DeleteUserModal";
 
 export default function UserManagementPage() {
   const [query, setQuery] = useState("");
@@ -9,6 +10,14 @@ export default function UserManagementPage() {
 
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
   const [isRolesModalOpen, setIsRolesModalOpen] = useState(false);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleDeleteClick = (user) => {
+    setSelectedUser(user);
+    setIsDeleteModalOpen(true);
+  };
 
   const users = [
     {
@@ -164,7 +173,10 @@ export default function UserManagementPage() {
                       <button className="p-2 hover:bg-slate-50 rounded-full transition">
                         <Edit2 size={18} className="text-slate-700" />
                       </button>
-                      <button className="p-2 hover:bg-slate-50 rounded-full transition">
+                      <button
+                        onClick={() => handleDeleteClick(u)}
+                        className="p-2 hover:bg-slate-50 rounded-full transition"
+                      >
                         <Trash2 size={18} className="text-red-600" />
                       </button>
                     </td>
@@ -205,6 +217,11 @@ export default function UserManagementPage() {
       <RolesPermissionsModal
         isOpen={isRolesModalOpen}
         onClose={() => setIsRolesModalOpen(false)}
+      />
+      <DeleteUserModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        user={selectedUser}
       />
     </div>
   );
