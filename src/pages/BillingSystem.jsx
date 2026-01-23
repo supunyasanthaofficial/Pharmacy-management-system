@@ -41,7 +41,7 @@ export default function BillingSystem() {
 
   const subTotal = cartItems.reduce(
     (sum, item) => sum + item.qty * item.price,
-    0
+    0,
   );
 
   return (
@@ -200,7 +200,7 @@ export default function BillingSystem() {
               </select>
             </div>
 
-            <div className="max-h-[520px] space-y-3 overflow-y-auto">
+            <div className="max-h-130 space-y-3 overflow-y-auto">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div
                   key={i}
