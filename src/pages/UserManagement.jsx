@@ -3,6 +3,7 @@ import { User, Bell, Search, Edit2, Trash2 } from "lucide-react";
 import AddUserModal from "../components/AddUserModal";
 import RolesPermissionsModal from "../components/RolesPermissionModal";
 import DeleteUserModal from "../components/DeleteUserModal";
+import EditUserModal from "../components/EditUserModal";
 
 export default function UserManagementPage() {
   const [query, setQuery] = useState("");
@@ -13,6 +14,13 @@ export default function UserManagementPage() {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const handleEditClick = (user) => {
+    setSelectedUser(user);
+    setIsEditModalOpen(true);
+  };
 
   const handleDeleteClick = (user) => {
     setSelectedUser(user);
@@ -170,7 +178,10 @@ export default function UserManagementPage() {
                       <StatusDot status={u.status} />
                     </td>
                     <td className="px-8 py-4 flex items-center gap-4">
-                      <button className="p-2 hover:bg-slate-50 rounded-full transition">
+                      <button
+                        onClick={() => handleEditClick(u)}
+                        className="p-2 hover:bg-slate-50 rounded-full transition"
+                      >
                         <Edit2 size={18} className="text-slate-700" />
                       </button>
                       <button
@@ -221,6 +232,11 @@ export default function UserManagementPage() {
       <DeleteUserModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
+        user={selectedUser}
+      />
+      <EditUserModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
         user={selectedUser}
       />
     </div>
