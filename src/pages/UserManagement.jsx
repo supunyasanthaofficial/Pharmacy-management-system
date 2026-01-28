@@ -125,7 +125,7 @@ export default function UserManagementPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name or email"
-              className="w-full pl-10 pr-4 p-3 rounded-lg border shadow-sm focus:outline-none focus:ring-2"
+              className="w-full pl-10 pr-4 p-3 rounded-lg border shadow-sm focus:outline-none focus:ring-2 bg-white"
             />
           </div>
 
