@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProductManagement() {
   const navigate = useNavigate();
-  
+
   return (
     <div className="min-h-screen rounded-4xl bg-teal-100 p-6">
       <div className="mb-6 flex items-center justify-between rounded-2xl bg-white px-6 py-4 shadow">
@@ -41,7 +41,7 @@ export default function ProductManagement() {
           <Search className="absolute left-3 top-3 text-gray-400" size={18} />
           <input
             placeholder="search ..."
-            className="w-full rounded-lg border px-10 py-2 text-sm outline-none focus:border-teal-500"
+            className="w-full rounded-lg border px-10 py-2 text-sm outline-none focus:border-teal-500 bg-white"
           />
         </div>
       </div>
@@ -171,8 +171,9 @@ export default function ProductManagement() {
           </p>
 
           <button
-          onClick={() => navigate("/inventory")}
-          className="mt-12 text-sm font-medium text-blue-600 hover:underline">
+            onClick={() => navigate("/inventory")}
+            className="mt-12 text-sm font-medium text-blue-600 hover:underline"
+          >
             Manage Product List →
           </button>
         </div>
