@@ -18,7 +18,7 @@ export default function BillingSystem() {
   const [showReturn, setShowReturn] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const cartItems = [
+  const [cartItems, setCartItems] = useState([
     {
       name: "Amoxicillin 250mg",
       batch: "A-1256",
@@ -37,16 +37,51 @@ export default function BillingSystem() {
       qty: 2,
       price: 15,
     },
-  ];
+  ]);
+
+  const addToCart = (medicineName, price) => {
+    const existingItem = cartItems.find((item) => item.name === medicineName);
+    if (existingItem) {
+      setCartItems(
+        cartItems.map((item) =>
+          item.name === medicineName ? { ...item, qty: item.qty + 1 } : item,
+        ),
+      );
+    } else {
+      setCartItems([
+        ...cartItems,
+        {
+          name: medicineName,
+          batch: "B-" + Math.floor(Math.random() * 1000),
+          qty: 1,
+          price: price,
+        },
+      ]);
+    }
+  };
+
+  const clearCart = () => {
+    if (window.confirm("Are you sure you want to clear the cart?")) {
+      setCartItems([]);
+    }
+  };
+
+  const removeItem = (index) => {
+    setCartItems(cartItems.filter((_, i) => i !== index));
+  };
 
   const subTotal = cartItems.reduce(
     (sum, item) => sum + item.qty * item.price,
     0,
   );
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="min-h-screen rounded-4xl bg-teal-100 p-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 print:hidden">
         <div>
           <h1 className="text-xl font-bold text-gray-800">
             Billing / POS System
@@ -68,7 +103,7 @@ export default function BillingSystem() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 print:hidden">
             <input
               type="text"
               placeholder="Search medicine by name or scan barcode..."
@@ -83,8 +118,8 @@ export default function BillingSystem() {
           </div>
 
           <div className="rounded-xl bg-white p-4 shadow">
-            <div className="mb-3 flex items-center justify-between text-sm font-medium">
-              <span className="text-base">Cart</span>
+            <div className="mb-3 flex items-center justify-between text-sm font-medium print:hidden">
+              <span className="text-base font-bold">Cart</span>
 
               <div className="flex items-center gap-4">
                 <button
@@ -111,7 +146,10 @@ export default function BillingSystem() {
                   Download PDF
                 </button>
 
-                <button className="flex items-center gap-1 text-red-500 hover:text-red-700">
+                <button
+                  onClick={clearCart}
+                  className="flex items-center gap-1 text-red-500 hover:text-red-700"
+                >
                   <Trash2 size={16} />
                   Clear Cart
                 </button>
@@ -127,7 +165,7 @@ export default function BillingSystem() {
                   <th className="text-center">Discount</th>
                   <th className="text-center">Price (Rs)</th>
                   <th className="text-center">Total (Rs)</th>
-                  <th />
+                  <th className="print:hidden" />
                 </tr>
               </thead>
 
@@ -142,8 +180,11 @@ export default function BillingSystem() {
                     <td className="text-center">
                       {(item.qty * item.price).toFixed(2)}
                     </td>
-                    <td className="text-center">
-                      <button className="text-red-500 hover:text-red-700">
+                    <td className="text-center print:hidden">
+                      <button
+                        onClick={() => removeItem(i)}
+                        className="text-red-500 hover:text-red-700"
+                      >
                         <Trash2 size={18} />
                       </button>
                     </td>
@@ -174,17 +215,20 @@ export default function BillingSystem() {
                   <span>Rs. {subTotal.toFixed(2)}</span>
                 </div>
 
-                <div className="mt-4 flex gap-3">
-                  <button className="rounded-lg border border-gray-300 px-6 py-2 hover:bg-gray-50">
+                <div className="mt-4 flex gap-3 print:hidden">
+                  <button className="rounded-lg bg-teal-600 px-4 py-1.5 text-sm text-white hover:bg-teal-800">
                     Cash
                   </button>
-                  <button className="rounded-lg border border-gray-300 px-6 py-2 hover:bg-gray-50">
+                  <button className="rounded-lg bg-teal-600 px-4 py-1.5 text-sm text-white hover:bg-teal-800">
                     Card
                   </button>
                 </div>
               </div>
 
-              <button className="flex h-12 items-center gap-2 rounded-lg bg-teal-600 px-6 text-white hover:bg-teal-700">
+              <button
+                onClick={handlePrint}
+                className="flex h-12 items-center gap-2 rounded-lg bg-teal-600 px-6 text-white hover:bg-teal-700 print:hidden"
+              >
                 <Printer size={20} />
                 Print Bill
               </button>
@@ -192,7 +236,7 @@ export default function BillingSystem() {
           </div>
         </div>
 
-        <div className="rounded-xl bg-white p-4 shadow">
+        <div className="rounded-xl bg-white p-4 shadow print:hidden">
           <input
             type="text"
             defaultValue="Panadol 500mg"
@@ -219,7 +263,11 @@ export default function BillingSystem() {
                   <p className="text-xs text-gray-500">Tablet</p>
                   <p className="text-xs text-green-600">In Stock 123</p>
                 </div>
-                <button className="rounded-lg bg-teal-700 px-4 py-2 text-white hover:bg-teal-800">
+
+                <button
+                  onClick={() => addToCart("Panadol 500mg", 30.0)}
+                  className="rounded-lg bg-teal-700 px-4 py-2 text-white hover:bg-teal-800"
+                >
                   Rs. 30.00
                 </button>
               </div>
@@ -229,32 +277,38 @@ export default function BillingSystem() {
       </div>
 
       {showReceipt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="relative w-full max-w-4xl rounded-2xl bg-[#bfe3dc] p-8 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 print:bg-white print:static">
+          <div className="relative w-full max-w-4xl rounded-2xl bg-[#bfe3dc] p-8 shadow-2xl print:bg-white print:p-0">
             <button
               onClick={() => setShowReceipt(false)}
-              className="absolute right-5 top-5 text-gray-700 hover:text-black"
+              className="absolute right-5 top-5 text-gray-700 hover:text-black print:hidden"
             >
               <X size={22} />
             </button>
 
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-between print:hidden">
               <h2 className="text-3xl font-bold text-black">Bill Receipt</h2>
 
               <div className="flex gap-4">
-                <button className="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3 font-medium shadow-sm hover:bg-gray-50">
+                <button
+                  onClick={handlePrint}
+                  className="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3 font-medium shadow-sm hover:bg-gray-50"
+                >
                   <Printer size={18} />
                   Print Invoice
                 </button>
 
-                <button className="flex items-center gap-2 rounded-xl bg-green-500 px-6 py-3 font-medium text-white shadow-sm hover:bg-green-600">
+                <button
+                  onClick={handlePrint}
+                  className="flex items-center gap-2 rounded-xl bg-green-500 px-6 py-3 font-medium text-white shadow-sm hover:bg-green-600"
+                >
                   <Download size={18} />
                   Download PDF
                 </button>
               </div>
             </div>
 
-            <div className="rounded-2xl bg-white p-8 shadow-md">
+            <div className="rounded-2xl bg-white p-8 shadow-md print:shadow-none">
               <div className="mb-6 flex items-start justify-between">
                 <div className="flex items-center gap-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-teal-600 bg-white">
@@ -280,7 +334,9 @@ export default function BillingSystem() {
                   <p className="font-semibold text-teal-700">
                     #INV-20240721-001
                   </p>
-                  <p className="text-gray-600">Date : 21 Jul 2024, 02:45 PM</p>
+                  <p className="text-gray-600">
+                    Date : {new Date().toLocaleString()}
+                  </p>
                 </div>
               </div>
 
@@ -296,46 +352,46 @@ export default function BillingSystem() {
                 </thead>
 
                 <tbody>
-                  <tr className="border-b">
-                    <td className="py-3 text-center font-medium">1</td>
-                    <td className="py-3 font-semibold">Amoxicillin 500mg</td>
-                    <td className="py-3 text-center">2</td>
-                    <td className="py-3 text-center">Rs12.50</td>
-                    <td className="py-3 text-center">Rs25.00</td>
-                  </tr>
-
-                  <tr>
-                    <td className="py-3 text-center font-medium">2</td>
-                    <td className="py-3 font-semibold">Paracetamol 650mg</td>
-                    <td className="py-3 text-center">1</td>
-                    <td className="py-3 text-center">Rs5.75</td>
-                    <td className="py-3 text-center">Rs5.75</td>
-                  </tr>
+                  {cartItems.map((item, idx) => (
+                    <tr key={idx} className="border-b">
+                      <td className="py-3 text-center font-medium">
+                        {idx + 1}
+                      </td>
+                      <td className="py-3 font-semibold">{item.name}</td>
+                      <td className="py-3 text-center">{item.qty}</td>
+                      <td className="py-3 text-center">
+                        Rs.{item.price.toFixed(2)}
+                      </td>
+                      <td className="py-3 text-center">
+                        Rs.{(item.qty * item.price).toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
 
               <div className="mt-8 flex justify-end">
-                <div className="w-80 space-y-2 text-sm">
+                <div className="w-80 space-y-2 text-sm text-right">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>Rs30.75</span>
+                    <span>Rs.{subTotal.toFixed(2)}</span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span>Discount (10%)</span>
-                    <span>-Rs3.08</span>
+                    <span>Discount (0%)</span>
+                    <span>-Rs.0.00</span>
                   </div>
 
                   <div className="mt-3 flex justify-between text-xl font-bold text-green-600">
                     <span>Net Total</span>
-                    <span>Rs27.67</span>
+                    <span>Rs.{subTotal.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
 
               <div className="mt-6 border-t pt-4 text-sm">
                 <b>Payment Method :</b>{" "}
-                <span className="text-gray-700">Card</span>
+                <span className="text-gray-700">Card / Cash</span>
               </div>
             </div>
           </div>
@@ -390,7 +446,7 @@ export default function BillingSystem() {
 
             <div className="rounded-xl bg-white p-3">
               <div className="overflow-x-auto">
-                <table className="w-full min-w-150[600px] text-xs">
+                <table className="w-full min-w-159[600px] text-xs">
                   <thead className="border-b text-teal-700">
                     <tr>
                       <th className="px-2 py-2 text-center">Select</th>
