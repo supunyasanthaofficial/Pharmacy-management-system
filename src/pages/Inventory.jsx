@@ -135,7 +135,7 @@ export default function InventoryPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search medicine by name, brand, barcode"
-              className="w-full pl-10 pr-4 p-3 rounded-lg border border-black shadow-sm focus:outline-none focus:ring-2"
+              className="w-full pl-10 pr-4 p-3 rounded-lg border border-black shadow-sm focus:outline-none focus:ring-2 bg-white"
             />
           </div>
         </div>
