@@ -72,7 +72,7 @@ export default function BillingSystem() {
             <input
               type="text"
               placeholder="Search medicine by name or scan barcode..."
-              className="w-full rounded-lg border border-black px-4 py-2 focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+              className="w-full rounded-lg border border-black px-4 py-2 focus:outline-none focus:border-black focus:ring-1 focus:ring-black bg-white"
             />
             <button className="rounded-lg bg-teal-600 px-4 py-2 text-white">
               Scan
