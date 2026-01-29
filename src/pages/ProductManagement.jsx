@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import StockManagement from "../components/StockManagement";
 
 export default function ProductManagement() {
   const navigate = useNavigate();
@@ -103,7 +104,7 @@ export default function ProductManagement() {
           </p>
 
           <button
-            onClick={() => true}
+            onClick={() => navigate("/Stock-Management")}
             className="mt-12 text-sm font-medium text-blue-600 hover:underline"
           >
             Manage Categories →
