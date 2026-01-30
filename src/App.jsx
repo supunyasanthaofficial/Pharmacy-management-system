@@ -16,6 +16,7 @@ import UserManagement from "./pages/UserManagement";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import StockManagement from "./components/StockManagement";
+import ProductForm from "./components/ProductForm";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/stock-management" element={<StockManagement />} />
+            <Route path="/product-form" element={<ProductForm />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />
