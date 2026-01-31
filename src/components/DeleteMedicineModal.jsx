@@ -24,10 +24,7 @@ const DeleteMedicineModal = ({ isOpen, onClose, onConfirm, product }) => {
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div 
-        className="absolute inset-0" 
-        onClick={handleCancel}
-      />
+      <div className="absolute inset-0" onClick={handleCancel} />
       <div className="relative z-10 w-full max-w-2xl animate-in fade-in zoom-in duration-200">
         <div className="bg-white border-[3px] border-emerald-600 rounded-2xl overflow-hidden shadow-2xl font-sans">
           <div className="flex justify-between items-center p-6 border-b border-gray-100">
@@ -36,11 +33,15 @@ const DeleteMedicineModal = ({ isOpen, onClose, onConfirm, product }) => {
                 <Trash2 className="text-red-500" size={24} />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-800">Delete Medicine</h2>
-                <p className="text-emerald-600 text-xs font-bold">Confirmation required</p>
+                <h2 className="text-xl font-bold text-gray-800">
+                  Delete Medicine
+                </h2>
+                <p className="text-emerald-600 text-xs font-bold">
+                  Confirmation required
+                </p>
               </div>
             </div>
-            <button 
+            <button
               className="text-gray-400 hover:text-gray-600 transition-colors"
               onClick={handleCancel}
             >
@@ -52,18 +53,23 @@ const DeleteMedicineModal = ({ isOpen, onClose, onConfirm, product }) => {
             <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
               <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-4">
                 <div className="bg-red-500 text-white rounded-full p-2 mt-12">
-                  <AlertCircle size={20} fill="white" className="text-red-500" />
+                  <AlertCircle
+                    size={20}
+                    fill="white"
+                    className="text-red-500"
+                  />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-gray-900 font-bold text-base">
                     This action cannot be undone.
                   </h4>
                   <p className="text-red-500 text-xs font-medium mt-1">
-                    Deleting this medicine will permanently remove it from inventory
-                    records and affect sales history reporting.
+                    Deleting this medicine will permanently remove it from
+                    inventory records and affect sales history reporting.
                   </p>
                   <p className="text-gray-700 text-xs font-bold mt-2">
-                    Current Stock: {product?.currentStock || "500 units"} available
+                    Current Stock: {product?.currentStock || "500 units"}{" "}
+                    available
                   </p>
                 </div>
               </div>
@@ -79,12 +85,30 @@ const DeleteMedicineModal = ({ isOpen, onClose, onConfirm, product }) => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <ReadOnlyField label="Medicine Name" value={product?.name || "Antibiotics"} />
-                  <ReadOnlyField label="Category" value={product?.category || "Analgesics"} />
-                  <ReadOnlyField label="Batch No" value={product?.batchNo || "PC2024A"} />
-                  <ReadOnlyField label="Expiry Date" value={product?.expiryDate || "12/2025"} />
-                  <ReadOnlyField label="Current Stock" value={product?.currentStock || "500 units"} />
-                  <ReadOnlyField label="Supplier" value={product?.supplier || "PharmaCo Inc"} />
+                  <ReadOnlyField
+                    label="Medicine Name"
+                    value={product?.name || "Antibiotics"}
+                  />
+                  <ReadOnlyField
+                    label="Category"
+                    value={product?.category || "Analgesics"}
+                  />
+                  <ReadOnlyField
+                    label="Batch No"
+                    value={product?.batchNo || "PC2024A"}
+                  />
+                  <ReadOnlyField
+                    label="Expiry Date"
+                    value={product?.expiryDate || "12/2025"}
+                  />
+                  <ReadOnlyField
+                    label="Current Stock"
+                    value={product?.currentStock || "500 units"}
+                  />
+                  <ReadOnlyField
+                    label="Supplier"
+                    value={product?.supplier || "PharmaCo Inc"}
+                  />
                 </div>
 
                 <div className="mt-4 space-y-2">
@@ -133,7 +157,7 @@ const DeleteMedicineModal = ({ isOpen, onClose, onConfirm, product }) => {
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   type="submit"
                   className="px-6 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={!confirmCheck || !reason.trim()}
